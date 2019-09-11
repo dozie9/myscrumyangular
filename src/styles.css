@@ -1,0 +1,83 @@
+/* You can add global styles to this file, and also import other style files */
+
+body, h4, h1, h2{
+    margin: 0px !important;
+    font-family: sans-serif !important;
+}
+
+h1, h2{
+  text-align: center;
+}
+
+.form-div{
+    width:30%;
+    margin-left: 35%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+input[type=text], input[type=password],input[type=email], select, textarea {
+    width: 100%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea{
+  height: 100px;
+}
+
+a{
+    color: #eee !important;
+    text-decoration: none;
+    /*padding: 10px 10px;*/
+}
+
+.btn{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 8px;
+    border-style: none !important;
+    background-color: #5a5a63 !important;
+    color: #eee;
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+    /*width: 30%;*/
+    margin: auto;
+}
+.btn:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+
+
+/*dragula*/
+/* in-flight clone */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}

@@ -1,0 +1,14 @@
+<div style="background-color:#5a5a63; color:#eee !important; width:98%; float:left; padding: 20px 1%; margin-bottom: 50px;">
+    <div style="width: 70%; float:left;">
+        <h4><a routerLink="/">nwankwochibikescrumy</a></h4>
+    </div>
+    <div style="width: 30%; float:left;"class="navx">
+        <a href=""></a>
+
+        <a (click)="dataService.logout()" *ngIf="dataService.checkLoggedInState()" style="cursor: pointer;">log out</a>
+        <a *ngIf="dataService.checkLoggedInState()">role: {{ dataService.user.role }}</a>
+        <a *ngIf="dataService.checkLoggedInState()" style="color: #05d270 !important;">{{ dataService.user.username }}</a>
+
+    </div>
+</div>
+

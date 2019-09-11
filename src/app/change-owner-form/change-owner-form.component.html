@@ -1,0 +1,13 @@
+
+<h2>Move goal, <b></b> with <b>id: </b></h2>
+<div>
+    <div class="form-div">
+        <form action="" method="post" #changeOwnerForm="ngForm" (ngSubmit)="changeGoalOwner()">
+          <select name="username" id="" [(ngModel)]="user_id">
+            <option *ngFor="let user of dataService.allUsers" [value]="user.id">{{ user.username }}</option>
+          </select>
+          <button class="btn" type="submit">submit</button>
+        </form>
+        <p style="width: 45%;margin-left: 35%;" ><a style="size:10px! important; color:#5a5a63 !important; text-decoration:underline" href="">back to home</a></p>
+    </div>
+</div>

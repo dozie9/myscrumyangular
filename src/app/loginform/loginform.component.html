@@ -1,0 +1,16 @@
+<h2>Log in</h2>
+<div>
+    <div class="form-div">
+        <form action="" method="post" #loginForm="ngForm" (ngSubmit)="login()">
+            <input type="hidden" name="csrfmiddlewaretoken" value="8CZ0wSKskJxUcQHS9htNaq4zMlYaUAvV19h0Eoz5CMKzlcuoJeu2pOoY9vjTz36N">
+            Username:<br>
+            <input [(ngModel)]=dataService.user.username type="text" name="username">
+            <br>
+            Password:<br>
+            <input [(ngModel)]=dataService.user.password type="password" name="password"><br><br>
+            <button class="btn" type="submit">log in</button>
+        </form>
+
+        <p style="text-align: center">Don't have an account? <a routerLink="/signup" style="color: #5a5a63 !important;">sign up</a></p>
+    </div>
+</div>

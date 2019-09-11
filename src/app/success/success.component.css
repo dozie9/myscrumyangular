@@ -1,0 +1,20 @@
+h2{
+    text-align: center;
+    padding-top: 40vh !important;
+    color: #eee !important;
+}
+
+p{
+    text-align: center;
+}
+
+a{
+    color: #eee !important;
+}
+
+.success-body{
+  height:100vh;
+  background-color: #05d270 !important;
+}
+
+

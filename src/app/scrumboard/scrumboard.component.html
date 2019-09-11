@@ -1,0 +1,50 @@
+<div style="width:60%; margin-left:20%;">
+    <a class="nav-btns" routerLink="">change role</a>
+    <a class="nav-btns" routerLink="/add-goal">create new goal</a>
+
+</div>
+<div>
+  <table (click)="onTableClick($event)">
+    <div *ngIf="dataService.allUsers != null">
+      <thead>
+          <th id="author">User</th>
+          <ng-container *ngFor="let status of dataService.statusList; let i = index; let c = count;">
+            <th [id]="i + 1">{{ status.status_name }}</th>
+          </ng-container>
+      <th id="remove">remove</th>
+      </thead>
+
+      <ng-container *ngFor="let user of dataService.allUsers" class="wrapper">
+        <tr class="container">
+            <td>{{ user.username }}</td>
+            <ng-container *ngFor="let status of dataService.statusList; let i = index; let c = count;">
+              <td [dragula]="'goal-item-'+ (user.id)" [id]="i+1">
+                <ng-container  *ngFor="let goal of user.goals; let ii = index; let c = count;">
+                  <div class="task-div" *ngIf="goal.goal_status == i+1 && goal.is_deleted == false" (mousedown)="setGoalIDToMove(goal)">
+                    <div [dragula]="'goal-item'" class="goal-content">
+                      <b>{{ goal.goal_id }}.</b> <span class="goal-text">{{ goal.goal_name }}</span> <br>
+                      <a class="move-links" routerLink="/change-owner/{{goal.id}}">change owner</a>
+                      <br><br><br>
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+            </ng-container>
+            <td [dragula]="'goal-item-'+ (user.id)" id="remove">
+              <ng-container *ngFor="let goal of user.goals">
+                <div class="task-div deleted-task" *ngIf="goal.is_deleted == true">
+                  <div class="goal-content">
+                      <b>{{ goal.goal_id }}.</b> {{ goal.goal_name }} <br>
+                      <!--<a class="move-links" (click)="dataService.deleteGoal(goal.id, goal.goal_id)">delete goal</a>
+                      <br><br><br>-->
+                    </div>
+                </div>
+              </ng-container>
+            </td>
+        </tr>
+      </ng-container>
+    </div>
+  </table>
+  <p id="experiment"></p>
+</div>
+

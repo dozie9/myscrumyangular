@@ -1,0 +1,24 @@
+<h2>Add a new goal</h2>
+
+<div>
+    <div class="form-div">
+        <form action="" method="post" (ngSubmit)="createNewGoal()">
+          <p>Goal name: <br>
+            <textarea type="text" name="name" [(ngModel)]=dataService.goal.goal_name></textarea>
+          </p>
+          <p>Goal status: <br>
+            <select name="status" id="status" [(ngModel)]=dataService.goal.goal_status>
+              <option *ngFor="let status of statusList" [value]=status.id>{{ status.status_name }}</option>
+            </select>
+          </p>
+          <p>Owner: <br>
+            <select name="user" id="user" [(ngModel)]=dataService.goal.user>
+              <option *ngFor="let user of allUsers" [value]="user.id">{{ user.username }}</option>
+            </select>
+          </p>
+          <button class="btn" type="submit">submit</button>
+        </form>
+        <p style="text-align: center;"><a style="size:10px! important; color:#5a5a63 !important; text-decoration:underline" routerLink="">back to home</a></p>
+    </div>
+</div>
+

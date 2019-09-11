@@ -1,0 +1,41 @@
+<div>
+  <div class="form-div register">
+    <h2>Registration</h2>
+    <form method="post" #registerForm="ngForm" (ngSubmit)="create()">
+      <p>firstname: <br>
+        <input [(ngModel)]=dataService.user.firstname type="text" name="firstname" required/>
+        <span>{{ dataService.user.firstname }}</span>
+      </p>
+      <p>lastname: <br>
+        <input [(ngModel)]=dataService.user.lastname type="text" name="lastname" required/>
+        <span>{{ dataService.user.lastname }}</span>
+      </p>
+      <p>username: <br>
+        <input [(ngModel)]=dataService.user.username type="text" name="username" required/>
+        <span>{{ dataService.user.username }}</span>
+      </p>
+      <p>email: <br>
+        <input [(ngModel)]=dataService.user.email type="text" name="email" required/>
+        <span>{{ dataService.user.email }}</span>
+      </p>
+      <p>role: <br>
+        <select name="role" [value]="dataService.user.role" [(ngModel)]=dataService.user.role>
+          <option *ngFor="let userType of dataService.userTypes" [value]="userType">{{ userType }}</option>
+        </select>
+        <span>{{ dataService.user.role }}</span>
+      </p>
+      <p>password: <br>
+        <input [(ngModel)]=dataService.user.password type="password" name="password1" required/>
+        <span>{{ dataService.user.password }}</span>
+      </p>
+      <p>confirm password: <br>
+        <input [(ngModel)]=dataService.confirmPassword type="password" name="password2" required/>
+        <span>{{ dataService.confirmPassword }}</span>
+      </p>
+      <button class="btn" type="submit">submit</button>
+    </form>
+    <p style="text-align: center; padding-top: 10px;">Already have an account?
+      <a style="color: #5a5a63 !important;" routerLink="/login">log in</a></p>
+
+  </div>
+</div>

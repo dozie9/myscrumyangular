@@ -1,0 +1,65 @@
+table{
+    border: 1px solid #c7c7ca;
+    width: 60%;
+    margin-left: 20% !important;
+    margin-bottom: 50px;
+}
+th{
+    text-align: left;
+}
+tr{
+    background-color: #eee;
+    border: 1px solid black;
+    border-spacing: 0px !important;
+}
+td{
+
+    border-spacing: 0px;
+}
+
+.nav-btns{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:#5a5a63;
+    color: #eee !important;
+    text-decoration: none;
+    margin-right: 20px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.nav-btns:hover{
+    background-color:#bdbdc2;
+    color: rgb(17, 16, 16) !important;
+}
+.move-links{
+    color: #e84487 !important;
+    text-decoration: underline;
+    cursor: pointer !important;
+}
+
+.task-div{
+  background-color: #ffffff !important;
+  margin: 10px 5px;
+  border-radius: 8px;
+}
+
+.deleted-task{
+  background-color: #ff3750 !important;
+  margin: 10px 5px;
+  border-radius: 8px;
+}
+
+.deleted-task > .goal-content{
+  color: white !important;
+}
+
+.modal-cover{
+  height: 100vh;
+  background-color: #0f0f0f;
+  position: absolute;
+  top: 0px !important;
+}
+
+.goal-content{
+  padding: 10px;
+}
