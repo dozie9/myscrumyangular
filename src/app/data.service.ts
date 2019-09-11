@@ -69,7 +69,7 @@ export class DataService implements OnInit{
 
   login(){
     const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/";
-    const url2 = "/nwankwochibikescrumy/api-token-auth/"
+    const url2 = "https://myscrumy.herokuapp.com/nwankwochibikescrumy/api-token-auth/"
     let credentials = encodeURI(this.user.username+":"+this.user.password)
     let base64_credentials = btoa(credentials)
 
@@ -254,7 +254,7 @@ export class DataService implements OnInit{
 
   }
 
-  hostName = "http://localhost:4200/";
+  hostName = "https://myscrumy.herokuapp.com";
 
   getStatusList(){
     const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/status/";
