@@ -45,7 +45,7 @@ export class DataService implements OnInit{
   }
 
   create(){
-    const url = "/nwankwochibikescrumy/api/scrumusers/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumusers/";
     if(this.confirmPassword == this.user.password){
         this.http.post(url, this.user).subscribe(
           data => {
@@ -68,7 +68,7 @@ export class DataService implements OnInit{
   }
 
   login(){
-    const url = "/nwankwochibikescrumy/api/users/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/";
     const url2 = "/nwankwochibikescrumy/api-token-auth/"
     let credentials = encodeURI(this.user.username+":"+this.user.password)
     let base64_credentials = btoa(credentials)
@@ -162,7 +162,7 @@ export class DataService implements OnInit{
   }
 
   setUsers(){
-    const url = "/nwankwochibikescrumy/api/users/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/";
 
     let token = this.getToken();
 
@@ -229,7 +229,7 @@ export class DataService implements OnInit{
 
   private getNewToken() {
     let new_token = ""
-    const url = "/nwankwochibikescrumy/api-token-auth/refresh/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api-token-auth/refresh/";
 
     let httpOptions_ = {
       headers : new HttpHeaders({
@@ -257,7 +257,7 @@ export class DataService implements OnInit{
   hostName = "http://localhost:4200/";
 
   getStatusList(){
-    const url = "/nwankwochibikescrumy/api/status/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/status/";
 
     let httpOptions_ = {
       headers : new HttpHeaders({
@@ -282,7 +282,7 @@ export class DataService implements OnInit{
   }
 
   createNewGoal(){
-    const url = "/nwankwochibikescrumy/api/scrumgoals/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumgoals/";
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
@@ -310,7 +310,7 @@ export class DataService implements OnInit{
 
   deleteGoal(id: number, goal_random_id:number){
     alert("this goal with id: "+ goal_random_id +" has been deleted.")
-    const url = "/nwankwochibikescrumy/api/scrumgoals/" + id + "/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumgoals/" + id + "/";
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
@@ -328,7 +328,7 @@ export class DataService implements OnInit{
 
 
   moveGoal(goal_id: any, move_id){
-    const url = "/nwankwochibikescrumy/api/scrumgoals/" + goal_id + "/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumgoals/" + goal_id + "/";
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
@@ -348,7 +348,7 @@ export class DataService implements OnInit{
   }
 
   changeGoalOwner(goal_id, new_owner){
-    const url = "/nwankwochibikescrumy/api/scrumgoals/" + goal_id + "/"
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumgoals/" + goal_id + "/"
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
@@ -372,7 +372,7 @@ export class DataService implements OnInit{
   }
 
   editGoalText(goal_id: any, goal_text){
-    const url = "/nwankwochibikescrumy/api/scrumgoals/" + goal_id + "/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumgoals/" + goal_id + "/";
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
