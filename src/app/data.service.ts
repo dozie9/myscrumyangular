@@ -69,7 +69,7 @@ export class DataService implements OnInit{
 
   login(){
     const url = "/nwankwochibikescrumy/api/users/";
-    const url2 = "nwankwochibikescrumy/api-token-auth/"
+    const url2 = "/nwankwochibikescrumy/api-token-auth/"
     let credentials = encodeURI(this.user.username+":"+this.user.password)
     let base64_credentials = btoa(credentials)
 
