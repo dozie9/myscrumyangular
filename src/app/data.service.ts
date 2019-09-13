@@ -69,7 +69,7 @@ export class DataService implements OnInit{
 
   login(){
     const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/";
-    const url2 = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api-token-auth/"
+    const url2 = "nwankwochibikescrumy/api-token-auth/"
     let credentials = encodeURI(this.user.username+":"+this.user.password)
     let base64_credentials = btoa(credentials)
 
@@ -89,9 +89,14 @@ export class DataService implements OnInit{
         let access_token = data['access'];
         let refresh_token = data['refresh'];
 
+
+        // console.log(this.parseJwt(data))
+
         let accessDecode = jwt_decode(access_token);
         // let userId = accessDecode['user_id'];
         // this.cookie.set('user_id', userId);
+
+        // let accessDecode = this.parseJwt(access_token)
 
 
         this.cookie.set('access_token', access_token);
@@ -148,6 +153,7 @@ export class DataService implements OnInit{
     //   this.isLoggedIn = false;
     //   this.router.navigateByUrl("");
     // }
+    console.log("checkLoggedInState")
     return this.cookie.check('access_token')
   }
 
@@ -199,25 +205,35 @@ export class DataService implements OnInit{
 
   private getToken() {
     let now = Date.now();
-    let access_expiry_date = this.getExpiryDate(this.cookie.get('access_token'))
-    let refresh_expiry_date = this.getExpiryDate(this.cookie.get('refresh_token'))
+    let access_token = this.cookie.get('access_token')
+    let refresh_token = this.cookie.get('refresh_token')
 
-    let current_access_token = new Date(access_expiry_date * 1000)
-    let current_refresh_token = new Date(refresh_expiry_date * 1000)
+    console.log(access_token)
+    if(access_token != "" && refresh_token != "") {
+      console.log("in get token")
+      console.log(typeof access_token)
+      let access_expiry_date = this.getExpiryDate(this.cookie.get('access_token'))
+      let refresh_expiry_date = this.getExpiryDate(this.cookie.get('refresh_token'))
 
-    if (current_refresh_token.getTime() > now){
-        if(current_access_token.getTime() > now){
+      let current_access_token = new Date(access_expiry_date * 1000)
+      let current_refresh_token = new Date(refresh_expiry_date * 1000)
+
+      if (current_refresh_token.getTime() > now) {
+        if (current_access_token.getTime() > now) {
           console.log("access_token has not expired" + current_access_token.getTime(), current_refresh_token.getTime(), now)
           return this.cookie.get('access_token')
-        }else{
+        } else {
           console.log("in get new token")
           return this.getNewToken();
         }
-    }else{
-      console.log("r: " + parseInt(this.cookie.get('access_token')) + ", now: " + now)
-      console.log("refresh_token HAS expired")
+      } else {
+        console.log("r: " + parseInt(this.cookie.get('access_token')) + ", now: " + now)
+        console.log("refresh_token HAS expired")
+        this.logout()
+        return "";
+      }
+    } else{
       this.logout()
-      return "";
     }
   }
 
@@ -254,7 +270,7 @@ export class DataService implements OnInit{
 
   }
 
-  hostName = "https://myscrumy.herokuapp.com/";
+  hostName = "http://localhost:4200/";
 
   getStatusList(){
     const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/status/";
@@ -393,6 +409,20 @@ export class DataService implements OnInit{
   route(routeName: string){
     this.router.navigateByUrl(routeName)
   }
+
+
+  parseJwt (data) {
+    console.log("in parseJwt")
+    console.log(data)
+    let token = data['access'];
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
 
 }
 
