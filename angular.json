@@ -63,8 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nwankwochibikescrum:build",
-            "proxyConfig": "proxy.conf.json",
+            "browserTarget": "nwankwochibikescrum:build"
+
           },
           "configurations": {
             "production": {
