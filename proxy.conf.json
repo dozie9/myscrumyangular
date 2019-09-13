@@ -1,6 +1,7 @@
 {
   "/nwankwochibikescrumy": {
     "target": "https://myscrummy.herokuapp.com/",
-    "secure": false
+    "secure": true,
+    "changeOrigin": true
   }
 }
