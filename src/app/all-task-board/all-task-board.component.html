@@ -1,12 +1,12 @@
 <div style="width:60%; margin-left:25%;">
-    <h4 style="margin-top: 20px !important; color: #05d270 !important;" *ngIf=" this.dataService.user.current_project != '' ">Project name: {{ this.dataService.user.current_project }}</h4><br>
-    <a class="nav-btns" routerLink="/all-tasks" (click)="dataService.enableActive($event)">All tasks</a>
+    <h4 style="margin-top: 20px !important; color: #05d270 !important;">Project name:{{ this.dataService.user.current_project }}</h4><br>
+    <a class="nav-btns" routerLink="/all-tasks">All tasks</a>
     <a class="nav-btns" routerLink="/scrumboard">My tasks</a>
     <a class="nav-btns" routerLink="/add-goal">create new goal</a>
 </div>
 <div>
-  <table (click)="onTableClick($event)">
-    <div *ngIf="user_array != null">
+  <table>
+    <div *ngIf="dataService.allUsers != null">
       <thead>
           <th id="author">User</th>
           <ng-container *ngFor="let status of dataService.statusList; let i = index; let c = count;">
@@ -15,23 +15,23 @@
       <th id="remove">remove</th>
       </thead>
 
-      <ng-container *ngFor="let user of user_array" class="wrapper">
+      <ng-container *ngFor="let user of dataService.allUsers" class="wrapper">
         <tr class="container">
             <td>{{ user.username }}</td>
             <ng-container *ngFor="let status of dataService.statusList; let i = index; let c = count;">
-              <td [dragula]="'goal-item-'+ (user.id)" [id]="i+1">
+              <td [id]="i+1">
                 <ng-container  *ngFor="let goal of user.goals; let ii = index; let c = count;">
-                  <div class="task-div" *ngIf="goal.goal_status == i+1 && goal.is_deleted == false" (mousedown)="setGoalIDToMove(goal)">
-                    <div [dragula]="'goal-item'" class="goal-content">
-                      <b>{{ goal.goal_id }}.</b> <span class="goal-text">{{ goal.goal_name }}</span> <br>
-                      <a class="move-links" routerLink="/change-owner/{{goal.id}}">change owner</a>
-                      <br><br><br>
+                  <div class="task-div" *ngIf="goal.goal_status == i+1 && goal.is_deleted == false">
+                    <div class="goal-content">
+                      <b>{{ goal.goal_id }}.</b> <span class="goal-text"> {{ goal.goal_name }}</span> <br>
+                      <!--<a class="move-links" routerLink="/change-owner/{{goal.id}}">change owner</a>
+                      <br><br><br>-->
                     </div>
                   </div>
                 </ng-container>
               </td>
             </ng-container>
-            <td [dragula]="'goal-item-'+ (user.id)" id="remove">
+            <td id="remove">
               <ng-container *ngFor="let goal of user.goals">
                 <div class="task-div deleted-task" *ngIf="goal.is_deleted == true">
                   <div class="goal-content">
@@ -48,4 +48,3 @@
   </table>
   <p id="experiment"></p>
 </div>
-

@@ -1,13 +1,22 @@
-<h2>Log in</h2>
+<h2 class="mt-5">Log in</h2>
 <div>
     <div class="form-div">
         <form action="" method="post" #loginForm="ngForm" (ngSubmit)="login()">
             <input type="hidden" name="csrfmiddlewaretoken" value="8CZ0wSKskJxUcQHS9htNaq4zMlYaUAvV19h0Eoz5CMKzlcuoJeu2pOoY9vjTz36N">
+
             Username:<br>
             <input [(ngModel)]=dataService.user.username type="text" name="username">
             <br>
+
             Password:<br>
-            <input [(ngModel)]=dataService.user.password type="password" name="password"><br><br>
+            <input [(ngModel)]=dataService.user.password type="password" name="password"><br>
+
+            project: <br>
+            <select name="project" [value]="dataService.user.login_project" [(ngModel)]=dataService.user.login_project>
+              <option *ngFor="let project of dataService.allProjects" [value]="project.name">{{ project.name }}</option>
+            </select>
+
+
             <button class="btn" type="submit">log in</button>
         </form>
 

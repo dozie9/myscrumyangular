@@ -1,6 +1,6 @@
 <div>
   <div class="form-div register">
-    <h2>Registration</h2>
+    <h2 class="mb-2">Registration</h2>
     <form method="post" #registerForm="ngForm" (ngSubmit)="create()">
       <p>firstname: <br>
         <input [(ngModel)]=dataService.user.firstname type="text" name="firstname" required/>
@@ -23,6 +23,10 @@
           <option *ngFor="let userType of dataService.userTypes" [value]="userType">{{ userType }}</option>
         </select>
         <span>{{ dataService.user.role }}</span>
+      </p>
+      <p *ngIf="dataService.user.role == 'Owner'">project: <br>
+        <input [(ngModel)]="dataService.user.new_project" type="text" name="project"/>
+        <span>{{ dataService.user.new_project }}</span>
       </p>
       <p>password: <br>
         <input [(ngModel)]=dataService.user.password type="password" name="password1" required/>

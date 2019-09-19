@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from "../data.service";
 import { Subscription } from "rxjs";
 import {DragulaService} from "ng2-dragula";
+import {CookieService} from "ngx-cookie-service";
+import {User} from "../user";
 
 @Component({
   selector: 'app-scrumboard',
@@ -14,8 +16,9 @@ export class ScrumboardComponent implements OnInit, OnDestroy {
   private goalToMove;
   private sub1: Subscription;
   private sub2: Subscription;
+  private user_array: User [] = [];
 
-  constructor(private _dataService: DataService, private _dragula: DragulaService) {
+  constructor(private _dataService: DataService, private _dragula: DragulaService, private _cookie: CookieService) {
     this.dataService = this._dataService
     // this.sub1 = this._dragula.drag().subscribe()
     this.sub2 = this._dragula.drop().subscribe(value => {
@@ -36,6 +39,21 @@ export class ScrumboardComponent implements OnInit, OnDestroy {
     this._dataService.getStatusList();
     // this._subscription.add(this.sub1)
     // this._subscription.add(this.sub2)
+    this.init()
+    this._dataService.getProjectsList()
+    this.dataService.createUser()
+  }
+
+  init(){
+    console.log("cookie type: ", typeof this._cookie.get('id'))
+    console.log("cookie type allusers: ", this._dataService.allUsers)
+    for (let user of this._dataService.allUsers){
+      if(user.id == parseInt(this._cookie.get('id'))){
+        this.user_array.push(user)
+        console.log("in init", this.user_array)
+        return
+      }
+    }
   }
 
   logout(){

@@ -6,4 +6,5 @@ export class Goal {
   public owner: string;
   public goal_status: string;
   public user: string;
+  public project_name: string;
 }

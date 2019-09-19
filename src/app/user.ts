@@ -11,6 +11,10 @@ export class User {
   public role: string;
   public password: string;
   public goals: Goal [];
+  public new_project: string;
+  public projects: any;
+  public current_project: any;
+  public login_project;
 
   constructor(){}
 }

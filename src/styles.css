@@ -53,6 +53,30 @@ a{
 }
 
 
+
+
+
+table{
+    border: 1px solid #c7c7ca !important;
+    width: 60%;
+    margin-left: 25% !important;
+    margin-bottom: 50px;
+}
+th{
+    text-align: left;
+}
+tr{
+    background-color: #eee;
+    border: 1px solid lightgrey !important;
+    border-spacing: 0px !important;
+}
+td{
+
+    border-spacing: 0px !important;
+}
+
+
+
 /*dragula*/
 /* in-flight clone */
 .gu-mirror {

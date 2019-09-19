@@ -20,7 +20,12 @@ export class NavigationComponent implements OnInit {
   ngOnInit() {
     if(this._dataService.checkLoggedInState()){
       this._dataService.createUser();
+      this.dataService.getProjectsList();
+      // this._dataService.chooseProject(2)
     }
   }
 
+  chooseProject(project_id, project_name){
+    this._dataService.chooseProject(project_id, project_name)
+  }
 }

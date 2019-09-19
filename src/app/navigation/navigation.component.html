@@ -1,14 +1,28 @@
-<div style="background-color:#5a5a63; color:#eee !important; width:98%; float:left; padding: 20px 1%; margin-bottom: 50px;">
-    <div style="width: 70%; float:left;">
-        <h4><a routerLink="/">nwankwochibikescrumy</a></h4>
+<div>
+  <div class="container-fluid" style=" z-index: 10000 !important;">
+    <div class="row">
+      <div class="col-lg-12" style="background-color:#5a5a63; color:#eee !important; float:left; padding: 20px 1%; margin-bottom:;">
+          <div style="width: 70%; float:left;">
+              <h4><a routerLink="/">nwankwochibikescrumy</a></h4>
+          </div>
+          <div style="width: 30%; float:left;"class="navx">
+              <a href=""></a>
+              <a (click)="dataService.logout()" *ngIf="dataService.checkLoggedInState()" style="cursor: pointer;">log out</a>
+              <a *ngIf="dataService.checkLoggedInState()">role: {{ dataService.user.role }}</a>
+              <a *ngIf="dataService.checkLoggedInState()" style="color: #05d270 !important;">{{ dataService.user.username }}</a>
+          </div>
+      </div>
     </div>
-    <div style="width: 30%; float:left;"class="navx">
-        <a href=""></a>
+  </div>
 
-        <a (click)="dataService.logout()" *ngIf="dataService.checkLoggedInState()" style="cursor: pointer;">log out</a>
-        <a *ngIf="dataService.checkLoggedInState()">role: {{ dataService.user.role }}</a>
-        <a *ngIf="dataService.checkLoggedInState()" style="color: #05d270 !important;">{{ dataService.user.username }}</a>
 
-    </div>
+  <div *ngIf="dataService.checkLoggedInState()" style="position: fixed; top: 0px; background-color:#c0c0c1; color:#eee !important;
+  height: 100vh; padding:150px 10px; margin-top: 68px; width: 250px;">
+    <h4 style="color: #272424; padding-bottom: 10px;">My projects</h4>
+    <ng-container *ngFor="let project of dataService.user.projects">
+        <p><a style="cursor: pointer; color: #c72fac !important;" (click)="chooseProject(project.id, project.name)">{{ project.name }}</a></p>
+    </ng-container>
+  </div>
+
 </div>
 

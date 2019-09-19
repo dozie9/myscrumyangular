@@ -9,18 +9,22 @@ import {AddGoalsComponent} from "./add-goals/add-goals.component";
 import {ErrorComponent} from "./error/error.component";
 import {SuccessComponent} from "./success/success.component";
 import {ChangeOwnerFormComponent} from "./change-owner-form/change-owner-form.component";
+import {AllTaskBoardComponent} from "./all-task-board/all-task-board.component";
+import {BlankProjectComponent} from "./blank-project-component/blank-project.component";
 
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
   {path:'welcome', component:WelcomeComponent},
   {path:'scrumboard', component:ScrumboardComponent},
+  {path:'all-tasks', component:AllTaskBoardComponent},
   {path:'add-goal', component:AddGoalsComponent},
   {path:'login', component:LoginformComponent},
   {path:'signup', component:RegisterFormComponent},
   {path:'change-owner/:goal_id', component:ChangeOwnerFormComponent},
   {path:'error', component:ErrorComponent},
   {path:'success', component:SuccessComponent},
+  {path:'blank', component:BlankProjectComponent}
 ];
 
 @NgModule({
@@ -38,4 +42,6 @@ export const routingComponents = [
   AddGoalsComponent,
   ErrorComponent,
   SuccessComponent,
+  AllTaskBoardComponent,
+  BlankProjectComponent
 ]

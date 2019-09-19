@@ -12,6 +12,8 @@ import {Goal} from "./goal";
 export class DataService implements OnInit{
   public user: User;
   public goal: Goal;
+  public projects;
+  public allProjects: any;
   public errorMessage;
   public successMessage;
   public redirect;
@@ -22,6 +24,7 @@ export class DataService implements OnInit{
   public statusList;
   private http: HttpClient;
   private cookie: CookieService;
+  private is_projected_selected:boolean = false;
 
   private httpOtions = {
     headers : new HttpHeaders({
@@ -30,18 +33,24 @@ export class DataService implements OnInit{
     })
   }
 
-  userTypes = ['owner', 'user'];
+  userTypes = ['Owner', 'user'];
 
   constructor(private _http: HttpClient, private _user: User, private router: Router, private _cookie: CookieService) {
     this.user = _user;
     this.http = _http;
     this.cookie = this._cookie;
     this.getToken();
+    this.getAllProjects();
 
     // this.checkLoggedInState();
   }
 
   ngOnInit(){
+    if(this.cookie.check('project_id')){
+      this.chooseProject(this.cookie.get('project_name'), this.cookie.get('project_name'))
+    }else{
+      this.is_projected_selected = false;
+    }
   }
 
   create(){
@@ -68,7 +77,6 @@ export class DataService implements OnInit{
   }
 
   login(){
-    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/";
     const url2 = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api-token-auth/"
     let credentials = encodeURI(this.user.username+":"+this.user.password)
     let base64_credentials = btoa(credentials)
@@ -83,20 +91,12 @@ export class DataService implements OnInit{
       data => {
         console.log("******^^^^^^^")
         console.log(data);
-        // this.cookie.deleteAll();
-        // localStorage.clear();
 
         let access_token = data['access'];
         let refresh_token = data['refresh'];
 
-
-        // console.log(this.parseJwt(data))
-
-        let accessDecode = jwt_decode(access_token);
-        // let userId = accessDecode['user_id'];
-        // this.cookie.set('user_id', userId);
-
-        // let accessDecode = this.parseJwt(access_token)
+        let accessDecode = jwt_decode(access_token)
+        // this.projects = accessDecode['projects']
 
 
         this.cookie.set('access_token', access_token);
@@ -104,18 +104,14 @@ export class DataService implements OnInit{
         this.cookie.set('first_name', accessDecode['first_name']);
         this.cookie.set('last_name', accessDecode['last_name']);
         this.cookie.set('username', accessDecode['username']);
+        this.cookie.set('id', accessDecode['id']);
         this.cookie.set('role', accessDecode['role']);
-
-
-
-        // this.cookie.set('first_name', data['first_name']);
-        // this.cookie.set('last_name', data['last_name']);
-        // this.cookie.set('username', data['username']);
-        // this.cookie.set('user_token', data['user_token']);
-        // this.cookie.set('role', data['role']);
+        this.cookie.set('login_project', this.user.login_project.name)
+        // this.cookie.set('projects', accessDecode['projects'])
 
         console.log("done setting cookie")
         console.log(this.cookie.get('username'))
+        // console.log(typeof accessDecode['projects'], accessDecode['projects'][0])
         },
       error1 => {
         console.log(error1);
@@ -126,12 +122,53 @@ export class DataService implements OnInit{
       },
       () => {
         this.isLoggedIn = this.checkLoggedInState();
+        console.log("login_project", this.user.login_project)
         this.createUser();
         this.setUsers();
+        this.getProjectsList()
+
         this.router.navigateByUrl("scrumboard");
       }
     );
   }
+
+  is_project_in_project_list(){
+    let is_in_project = false
+
+    for(let project of this.user.projects){
+      console.log(project.name, this.user.login_project)
+      if(project.name == this.user.login_project){
+        is_in_project = true
+        this.cookie.set("project_name", project.name)
+      }
+    }
+
+    if(!is_in_project){
+      console.log("ADDING USER TO THE PROJECT")
+      this.addUserToProject()
+    }
+  }
+
+  private addUserToProject() {
+    // console.log("getProjectsList")
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumusers/" + this.cookie.get('id') + "/add-user-project/"
+    let httpOptions_ = {
+      headers : new HttpHeaders({
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer ' + this.cookie.get('access_token'),
+      })
+    };
+
+    this._http.post(url, {"project_name": this.user.login_project}, httpOptions_).subscribe(
+      data => {
+        console.log("data from get all Projects", data)
+        this.allProjects = data;
+      },
+      error1 => console.log(error1),
+      () => console.log("complete ANDING USER TO PROJECT")
+    )
+  }
+
 
   logout(){
     this.cookie.deleteAll();
@@ -142,18 +179,7 @@ export class DataService implements OnInit{
   }
 
   checkLoggedInState(){
-    // if(this.cookie.check('user_token')){
-    //   console.log("here")
-    //   this.isLoggedIn = true;
-    //   this.createUser();
-    //   this.router.navigateByUrl("scrumboard");
-    // }
-    // else{
-    //   console.log("not logged in")
-    //   this.isLoggedIn = false;
-    //   this.router.navigateByUrl("");
-    // }
-    console.log("checkLoggedInState")
+    // console.log("checkLoggedInState")
     return this.cookie.check('access_token')
   }
 
@@ -163,43 +189,52 @@ export class DataService implements OnInit{
       this.user.lastname = this.cookie.get('last_name');
       this.user.username = this.cookie.get('username');
       this.user.role = this.cookie.get('role')
+      this.user.projects = this.projects
+      this.user.current_project = this.cookie.get('project_name')
       console.log("create user")
+      console.log()
     }
   }
 
+  getUser(){
+    // const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/" + this.cookie.get()
+  }
+
   setUsers(){
-    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/";
-
-    let token = this.getToken();
-
     let httpOtions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
         'Authorization': 'Bearer ' + this.getToken()
       })
     }
-    this.http.get(url, httpOtions_).subscribe(
-      (data: User[]) => {
-        let x : User[] = data.map(user => {
-          let newUser = new User();
+    if(this.cookie.check('project_name')){
+        // alert("wow")
+        const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/" + this.cookie.get('project_id') + "/projects-users/";
+        this.http.get(url, httpOtions_).subscribe(
+        (data: User[]) => {
+          let x : User[] = data.map(user => {
+            let newUser = new User();
 
-          newUser.id = user['id']
-          newUser.firstname = user['first_name']
-          newUser.lastname = user['last_name']
-          newUser.username = user['username']
-          newUser.goals = user['goals']
+            newUser.id = user['id']
+            newUser.firstname = user['first_name']
+            newUser.lastname = user['last_name']
+            newUser.username = user['username']
+            newUser.goals = user['goals']
 
-          return newUser;
-        });
+            return newUser;
+          });
 
-        this.allUsers = x;
-      },
-      error1 => console.log(error1),
-      () => {
-        console.log("complete")
-        console.log(this.allUsers)
-      }
-    )
+          this.allUsers = x;
+        },
+        error1 => console.log(error1),
+        () => {
+          console.log("complete")
+          console.log(this.allUsers)
+        }
+      )
+    }else{
+      this.route('blank')
+    }
     return this.allUsers;
   }
 
@@ -297,6 +332,90 @@ export class DataService implements OnInit{
     )
   }
 
+  getAllProjects(){
+    console.log("getProjectsList")
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/projects/"
+    let httpOptions_ = {
+      headers : new HttpHeaders({
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer ' + this.cookie.get('access_token'),
+      })
+    };
+
+    this._http.get(url, httpOptions_).subscribe(
+      data => {
+        console.log("data from get all Projects", data)
+        this.allProjects = data;
+      },
+      error1 => console.log(error1),
+      () => console.log("complete ALL projects retrieval")
+    )
+  }
+
+  getProjectsList(){
+    console.log("getProjectsList")
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumusers/" + this.cookie.get('id') + "/user-projects/";
+    let httpOptions_ = {
+      headers : new HttpHeaders({
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer ' + this.cookie.get('access_token'),
+      })
+    };
+
+    this._http.get(url, httpOptions_).subscribe(
+      data => {
+        console.log("data from getProject", data)
+        this.user.projects = data;
+      },
+      error1 => console.log(error1),
+      () => {
+        console.log("complete projects retrieval")
+        this.is_project_in_project_list()
+      }
+
+    )
+  }
+
+  chooseProject(project_id, project_name){
+    console.log("chooseProjectsList")
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/" + project_id + "/projects-users/";
+    let httpOptions_ = {
+      headers : new HttpHeaders({
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer ' + this.cookie.get('access_token'),
+      })
+    };
+
+    this._http.get(url, httpOptions_).subscribe(
+      (data: User[]) => {
+        let x : User[] = data.map(user => {
+          let newUser = new User();
+
+          newUser.id = user['id']
+          newUser.firstname = user['first_name']
+          newUser.lastname = user['last_name']
+          newUser.username = user['username']
+          newUser.goals = user['goals']
+
+          return newUser;
+        });
+
+        this.allUsers = x;
+      },
+      error1 => console.log(error1),
+      () => {
+        console.log("complete projects retrieval for choose projects: ", this.allUsers)
+
+        this.cookie.set("project_id", project_id)
+        this.cookie.set("project_name", project_name)
+        this.user.current_project = project_name;
+        this.is_projected_selected = true
+        this.getProjectsList()
+        this.route("all-tasks")
+      }
+    )
+  }
+
   createNewGoal(){
     const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumgoals/";
     let httpOptions_ = {
@@ -305,6 +424,7 @@ export class DataService implements OnInit{
         'Authorization': 'Bearer ' + this.getToken()
       })
     }
+    this.goal.project_name = this.user.current_project
     this.http.post(url, this.goal, httpOptions_).subscribe(
       data => {
         console.log(data)
@@ -410,6 +530,12 @@ export class DataService implements OnInit{
     this.router.navigateByUrl(routeName)
   }
 
+  enableActive(event){
+    let navBtn = document.getElementsByClassName("nav-btns")
+    // for(item of navBtn){
+    //
+    // }
+  }
 
   parseJwt (data) {
     console.log("in parseJwt")
@@ -423,6 +549,7 @@ export class DataService implements OnInit{
 
     return JSON.parse(jsonPayload);
 };
+
 
 }
 
