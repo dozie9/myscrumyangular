@@ -360,7 +360,7 @@ export class DataService implements OnInit{
   getAllProjects(){
     console.log("getProjectsList")
     console.log("token before call: ", this.cookie.get('token'))
-    const url = "nwankwochibikescrumy/api/projects/"
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/projects/"
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
@@ -381,7 +381,7 @@ export class DataService implements OnInit{
   //get the projects of a particular user
   getProjectsList(){
     console.log("getProjectsList")
-    const url = "nwankwochibikescrumy/api/scrumusers/" + this.cookie.get('id') + "/user-projects/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/scrumusers/" + this.cookie.get('id') + "/user-projects/";
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
@@ -407,7 +407,7 @@ export class DataService implements OnInit{
   chooseProject(project_id, project_name){
     console.log("chooseProjectsList")
     console.log("token before call: ", this.cookie.get('token'))
-    const url = "nwankwochibikescrumy/api/users/" + project_id + "/projects-users/";
+    const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/users/" + project_id + "/projects-users/";
     let httpOptions_ = {
       headers : new HttpHeaders({
         'Content-Type': 'Application/json',
