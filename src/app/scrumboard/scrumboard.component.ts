@@ -17,7 +17,7 @@ export class ScrumboardComponent implements OnInit, OnDestroy {
   private project_id;
   private sub1: Subscription;
   private sub2: Subscription;
-  private user_array: User [] = [];
+  public user_array: User [] = [];
 
   constructor(private _dataService: DataService, private _dragula: DragulaService, private _cookie: CookieService) {
     this.dataService = this._dataService
