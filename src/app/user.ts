@@ -9,6 +9,7 @@ export class User {
   public username: string;
   public email: string;
   public role: string;
+  public project_role
   public password: string;
   public goals: Goal [];
   public new_project: string;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-blank-project-component',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlankProjectComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService:DataService) {
+  }
 
   ngOnInit() {
+    console.log("loading blank form init")
+    this.dataService.getAllProjects()
   }
 
 }

@@ -24,6 +24,6 @@ export class ChangeOwnerFormComponent implements OnInit {
   changeGoalOwner(){
     //??how do we get the id of the goal we want to affect: soln might be to use the id in the url and get it here
     console.log(this.user_id)
-    this._dataService.changeGoalOwner(this.goal_id, this.user_id)
+    // this._dataService.changeGoalOwner(this.goal_id, this.user_id)
   }
 }

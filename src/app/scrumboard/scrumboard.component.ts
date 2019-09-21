@@ -14,12 +14,16 @@ export class ScrumboardComponent implements OnInit, OnDestroy {
   public dataService: DataService;
   public status = {}
   private goalToMove;
+  private project_id;
   private sub1: Subscription;
   private sub2: Subscription;
-  public user_array: User [] = [];
+  private user_array: User [] = [];
 
   constructor(private _dataService: DataService, private _dragula: DragulaService, private _cookie: CookieService) {
     this.dataService = this._dataService
+    this.project_id = this._cookie.get('project_id')
+
+
     // this.sub1 = this._dragula.drag().subscribe()
     this.sub2 = this._dragula.drop().subscribe(value => {
       console.log(value)
@@ -27,18 +31,16 @@ export class ScrumboardComponent implements OnInit, OnDestroy {
       console.log(value.target.attributes)
       if (value.target.id == "remove"){
         this._dataService.deleteGoal(this.goalToMove["id"], this.goalToMove["goal_id"])
-      } else {
+      } else{
         this._dataService.moveGoal(this.goalToMove["id"], value.target.id)
       }
-
     })
+    this._dataService.setUsers()
   }
 
   ngOnInit() {
-    this._dataService.setUsers();
+    // this._dataService.setUsers();
     this._dataService.getStatusList();
-    // this._subscription.add(this.sub1)
-    // this._subscription.add(this.sub2)
     this.init()
     this._dataService.getProjectsList()
     this.dataService.createUser()
