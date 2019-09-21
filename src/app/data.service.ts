@@ -330,7 +330,7 @@ export class DataService implements OnInit{
 
   }
 
-  hostName = "http://localhost:4200/";
+  hostName = "https://myscrumy.herokuapp.com/";
 
   getStatusList(){
     const url = "https://myscrummy.herokuapp.com/nwankwochibikescrumy/api/status/";
